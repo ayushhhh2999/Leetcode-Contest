@@ -1,0 +1,25 @@
+class Solution:
+    def minOperations(self, nums: List[int], k: int) -> int:
+        
+        if any(num < k for num in nums):
+            return -1
+
+       
+        nums.sort(reverse=True)
+        count = 0
+
+      
+        while nums[0] > k:
+            max_val = nums[0] 
+            count += 1
+            
+            next_val = k
+            for num in nums:
+                if num < max_val:
+                    next_val = num
+                    break
+            for i in range(len(nums)):
+                if nums[i] == max_val:
+                    nums[i] = next_val
+
+        return count
