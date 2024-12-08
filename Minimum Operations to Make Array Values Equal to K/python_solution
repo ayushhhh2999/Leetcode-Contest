@@ -1,18 +1,20 @@
-from typing import List
-
 class Solution:
-    def constructTransformedArray(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        result = [0] * n  
+    def minOperations(self, nums: List[int], k: int) -> int:
         
-        for i in range(n):
-            if nums[i] > 0:
-                index = (i + nums[i]) % n  
-                result[i] = nums[index]
-            elif nums[i] < 0:
-                index = (i - abs(nums[i])) % n 
-                result[i] = nums[index]
-            else:
-                result[i] = nums[i]  
-        
-        return result
+        if any(num < k for num in nums):
+            return -1
+
+       
+        nums.sort(reverse=True)
+        count = 0
+        if nums[0] == k:
+            return 0
+      
+        for ind in range(len(nums)-1):
+            if nums[ind] == k or nums[ind+1] == k:
+                break
+            if nums[ind] > nums[ind+1]:
+                count += 1
+                
+          
+        return count+1
