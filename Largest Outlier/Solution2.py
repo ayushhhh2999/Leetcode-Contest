@@ -1,21 +1,18 @@
 class Solution:
-    def getLargestOutlier(self, arr: List[int]) -> int:
-        total = sum(arr)
-        num_count = Counter(arr) 
+    def if_outlier(self, nums: List[int], num: int,sum1: int, freq:dict) -> bool:
+        if ((sum1 - num)%2 == 0) and (sum1 - num)//2 in freq and num != (sum1 - num)//2:
+            return True  
+        if (sum1 - num)//2 in freq and num == (sum1 - num)//2 and freq[num] > 1:
+            return True  
+        else:
+            return False        
+    def getLargestOutlier(self, nums: List[int]) -> int:
+        sum_num = sum(nums)
+        freq = Counter(nums)
+        max_out = -123456789123
+        for i in nums:
+            if self.if_outlier(nums,i,sum_num,freq):
+                max_out = max(max_out,i)
+        return max_out        
+
         
-        result = float('-inf')
-        
-        for num in arr:
-            if (total - num) % 2 == 0:
-                target = (total - num) // 2
-                num_count[num] -= 1  
-                if num_count[num] == 0:
-                    del num_count[num]
-                
-                if num_count.get(target, 0) > 0:  
-                    result = max(result, num)
-                
-                
-                num_count[num] = num_count.get(num, 0) + 1
-        
-        return result if result != float('-inf') else -1
